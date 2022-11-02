@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import SchoolIcon from "@mui/icons-material/School";
 import WorkIcon from "@mui/icons-material/Work";
 import StorefrontIcon from "@mui/icons-material/Storefront";
+import LoginIcon from "@mui/icons-material/Login";
 
 const Home: NextPage = () => {
   return (
@@ -40,6 +41,13 @@ const Home: NextPage = () => {
           onClick={() => Router.push("/student")}
         >
           学生の方はこちら
+        </Button>
+        <Button
+          variant="outlined"
+          startIcon={<LoginIcon />}
+          onClick={() => Router.push("/login")}
+        >
+          ログイン
         </Button>
       </main>
 
