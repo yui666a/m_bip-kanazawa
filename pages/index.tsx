@@ -7,7 +7,7 @@ import SchoolIcon from "@mui/icons-material/School";
 import WorkIcon from "@mui/icons-material/Work";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import LoginIcon from "@mui/icons-material/Login";
-
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>
@@ -44,10 +44,17 @@ const Home: NextPage = () => {
         </Button>
         <Button
           variant="outlined"
-          startIcon={<LoginIcon />}
+          endIcon={<LoginIcon />}
           onClick={() => Router.push("/login")}
         >
           ログイン
+        </Button>
+        <Button
+          variant="outlined"
+          endIcon={<PersonAddAltIcon />}
+          onClick={() => Router.push("/sign-up")}
+        >
+          新規登録
         </Button>
       </main>
 
