@@ -25,10 +25,11 @@ type JobOffer = {
   title: string;
   detail: string;
 };
+
 const Student: NextPage = () => {
   const router = useRouter();
   const { task_id } = router.query;
-  const [items, setItems] = useState<JobOffer[]>([1, 2, 3]);
+  const [items, setItems] = useState([1, 2, 3]);
 
   useEffect(() => {
     console.log("useEffect");
@@ -51,7 +52,7 @@ const Student: NextPage = () => {
         <Typography>task.name</Typography>
         パスパラメータは{task_id}です。id{task_id}のデータを取得してきて表示する
         {items &&
-          items.map((item: JobOffer) => {
+          items.map((item: any) => {
             return (
               <Card
                 variant="outlined"
