@@ -14,7 +14,7 @@ function getJobs() {
       status: data[1],
       title: data[2],
       category: data[3],
-      author_id: data[4],
+      author: getUserById(data[4]),
       detail: data[5],
       reward: data[6],
     }
@@ -46,9 +46,7 @@ function createJob(e) {
 /**
  * 
  */
-function getJobById(e) {
-  const id = e.parameter.id;
-
+function getJobById(id) {
   const items = getJobs().filter((item) => item.id == id)
   if (items.length == 0) {
     return "job not found"
@@ -56,11 +54,3 @@ function getJobById(e) {
     return items[0]
   }
 }
-
-
-
-
-
-
-
-

@@ -4,15 +4,15 @@ function getIdeas() {
   // const lastCol = 6
   // const data_set = ideaSheet.getRange(1, 1, ideaSheet.getLastRow(), lastCol).getValues();
   const data_set = ideaSheet.getDataRange().getValues();
-  
+
   // remove the row of column name
   data_set.shift()
 
   return data_set.map((data) => {
     return {
       id: data[0],
-      author_id: data[1],
-      jobs_id: data[2],
+      author: getUserById(data[1]),
+      job: getJobById(data[2]),
       title: data[3],
       detail: data[4],
       status: data[5],
@@ -46,9 +46,7 @@ function createIdea(e) {
 /**
  * 
  */
-function getIdeaById(e) {
-  const id = e.parameter.id;
-
+function getIdeaById(id) {
   const items = getIdeas().filter((item) => item.id == id)
   if (items.length == 0) {
     return "idea not found"
@@ -56,11 +54,3 @@ function getIdeaById(e) {
     return items[0]
   }
 }
-
-
-
-
-
-
-
-

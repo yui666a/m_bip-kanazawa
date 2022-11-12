@@ -4,7 +4,7 @@ function getUsers() {
   // const lastCol = 6
   // const data_set = userSheet.getRange(1, 1, jobSheet.getLastRow(), lastCol).getValues();
   const data_set = userSheet.getDataRange().getValues();
-  
+
   // remove the row of column name
   data_set.shift()
 
@@ -58,9 +58,7 @@ function createUser(e) {
 /**
  * 
  */
-function getUserById(e) {
-  const id = e.parameter.id;
-
+function getUserById(id) {
   const items = getUsers().filter((item) => item.id == id)
   if (items.length == 0) {
     return "user not found"
@@ -68,11 +66,3 @@ function getUserById(e) {
     return items[0]
   }
 }
-
-
-
-
-
-
-
-
