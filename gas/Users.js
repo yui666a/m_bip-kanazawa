@@ -12,7 +12,7 @@ function getUsers() {
     return {
       id: data[0],
       name: data[1],
-      belog: data[2],
+      belong: data[2],
       self_introduce: data[3],
       isStudent: data[4],
       password: data[5],
@@ -34,7 +34,7 @@ function tryLogin(e) {
 }
 
 /**
- * mode=create-user&name=aaa&belog=bbb&self_introduce=ccc&isStudent=true&password=ddd
+ * mode=create-user&name=aaa&belong=bbb&self_introduce=ccc&isStudent=true&password=ddd
  */
 function createUser(e) {
   // 途中の行が削除されない限り有効
@@ -42,12 +42,12 @@ function createUser(e) {
 
   // 以下はparamterで受け取る
   name = e.parameter.name
-  belog = e.parameter.belog
+  belong = e.parameter.belong
   self_introduce = e.parameter.self_introduce
   isStudent = e.parameter.isStudent
   password = e.parameter.password
 
-  userSheet.appendRow([id, name, belog, self_introduce, isStudent, password]);
+  userSheet.appendRow([id, name, belong, self_introduce, isStudent, password]);
   return {
     status: 200,
     message: "success",
