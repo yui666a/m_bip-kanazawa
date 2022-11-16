@@ -28,7 +28,9 @@ type JobOffer = {
   reward?: number;
 };
 
-var my_id = localStorage.getItem('id');
+// var my_id = localStorage.getItem('id');
+var my_id = 3;
+
 
 const Company: NextPage = () => {
 
