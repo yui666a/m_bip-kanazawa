@@ -1,4 +1,6 @@
-import * as React from "react";
+import { useState } from "react";
+import Router from "next/router";
+
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,18 +14,64 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
 
 // const theme = createTheme();
 
 export default function SignUp() {
+  const [inputState, setState] = useState({
+    name: "aaa",
+    isStudent: true,
+    password: "eee",
+  });
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    // const data = new FormData(event.currentTarget);
+    // console.log({
+    //   email: data.get("email"),
+    //   password: data.get("password"),
+    // });
+    axios
+      .get(baseUrl, {
+        params: {
+          mode: "sign-up",
+          ...inputState,
+        },
+      })
+      .then((res: any) => {
+        console.log(res);
+        // if (res.data === "password incorrect")
+        //   setState({ ...inputState, password: "" });
+        // if (res.data === "user not fount") setState({ id: "", password: "" });
+
+        // res.data.isStudent ? Router.push("/student") : Router.push("/company");
+      });
   };
+
+  const baseUrl =
+    "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
+  function createAccount() {
+    axios
+      .get(baseUrl, {
+        params: {
+          mode: "sing-up",
+          name: "aaa",
+          belong: "bbb",
+          self_introduce: "ccc",
+          isStudent: true,
+          password: "eee",
+        },
+      })
+      .then((res: any) => {
+        console.log(res);
+        // if (res.data === "password incorrect")
+        //   setState({ ...inputState, password: "" });
+        // if (res.data === "user not fount") setState({ id: "", password: "" });
+
+        // res.data.isStudent ? Router.push("/student") : Router.push("/company");
+      });
+  }
 
   return (
     // <ThemeProvider theme={theme}>
@@ -99,6 +147,7 @@ export default function SignUp() {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            // onClick={createAccount}
           >
             登録する
           </Button>
