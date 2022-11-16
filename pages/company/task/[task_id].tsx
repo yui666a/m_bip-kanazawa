@@ -31,7 +31,7 @@ type JobOffer = {
   detail: string;
 };
 
-const onClickHandler = (task_id: number, title: string, detail: string, router: any) => {
+const onClickHandler = (my_id: number, task_id: number, title: string, detail: string, router: any) => {
   console.log("post");
   if (title === "" || detail === "") {
     alert("タイトルと詳細を入力してください。");
@@ -42,7 +42,7 @@ const onClickHandler = (task_id: number, title: string, detail: string, router: 
   axios.get(urlBase, {
     params: {
       mode: 'create-idea',
-      author_id: 1,
+      author_id: my_id,
       jobs_id: task_id,
       title: title,
       detail: detail
@@ -54,12 +54,9 @@ const onClickHandler = (task_id: number, title: string, detail: string, router: 
 const Task: NextPage = () => {
   const router = useRouter();
   const { task_id } = router.query;
-
   const [jobData, setJobDatas] = useState({});
   const [ideasData, setIdeasDatas] = useState({});
-
   const [items, setItems] = useState([]);
-
   const [ideaTitle, setIdeaTitle] = useState('');
   const [ideaDetail, setIdeaDetail] = useState('');
   const urlBase =
@@ -67,8 +64,8 @@ const Task: NextPage = () => {
 
   // task_idが変わるたびに処理を実行
   useEffect(() => {
-    console.log("useEffect");
-    console.log(task_id);
+    // console.log("useEffect");
+    // console.log(task_id);
     const urlApiJob = urlBase + "?mode=job&id=" + task_id;
     axios.get(urlApiJob).then((res) => {
       if (res.data !== "job not found") {
@@ -115,13 +112,14 @@ const Task: NextPage = () => {
     console.log(`エラー発生 ${e}`);
   }
 
+  var my_id = localStorage.getItem('id');
   // setItems(ideaIdList);
 
   // console.log("jobData");
   // console.log(jobData);
-  console.log("ideasData");
-  console.log(ideasData);
-  console.log("");
+  // console.log("ideasData");
+  // console.log(ideasData);
+  // console.log("");
 
   return (
     <div className={styles.container}>
@@ -250,7 +248,7 @@ const Task: NextPage = () => {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => onClickHandler(1, ideaTitle, ideaDetail, router)}
+              onClick={() => onClickHandler(my_id, task_id, ideaTitle, ideaDetail, router)}
             >
               送信
             </Button>
