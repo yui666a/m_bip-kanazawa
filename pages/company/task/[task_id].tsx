@@ -17,6 +17,7 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { useEffect, useState } from "react";
 import { Input, TextField, Typography } from "@mui/material";
 import Image from "next/image";
+import axios from 'axios';
 
 type JobOffer = {
   logo: any;
@@ -30,6 +31,16 @@ const Student: NextPage = () => {
   const router = useRouter();
   const { task_id } = router.query;
   const [items, setItems] = useState([1, 2, 3]);
+
+  const urlApiJob = "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec?mode=job&id="+task_id;
+  const [jobData, setJobDatas] = useState([]);
+
+  axios.get(urlApiJob).then((res)=> {
+    if (res.data !== "job not found") {
+      setJobDatas(res.data);
+    }
+  })
+  console.log(jobData);
 
   useEffect(() => {
     console.log("useEffect");
@@ -49,8 +60,8 @@ const Student: NextPage = () => {
         <AppBar position="static">企業求人追加ページ。ここはヘッダー</AppBar>
       </header>
       <main className={styles.main}>
-        <Typography>task.name</Typography>
-        パスパラメータは{task_id}です。id{task_id}のデータを取得してきて表示する
+        <Typography>{jobData["title"]}</Typography>
+        パスパラメータは{task_id}です。id{task_id}のデータを取得してきて表示する<br></br>{jobData["detail"]}
         {items &&
           items.map((item: any) => {
             return (
