@@ -1,11 +1,15 @@
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
+
 import Router from "next/router";
 import Head from "next/head";
-import styles from "../../styles/Home.module.css";
+import styles from "/styles/Home.module.css";
 import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
+import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import SchoolIcon from "@mui/icons-material/School";
 import WorkIcon from "@mui/icons-material/Work";
@@ -15,6 +19,32 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { useEffect, useState } from "react";
 import { Input, TextField, Typography } from "@mui/material";
 import Image from "next/image";
+import axios from "axios";
+import { width } from "@mui/system";
+
+
+const onClickHandler = (my_id: number, title: string, category: string, detail: string, reward: string, router: any) => {
+  console.log("post");
+  if (title === "" || detail === "") {
+    alert("タイトルと詳細を入力してください。");
+    return;
+  }
+
+  const urlBase = "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
+  axios.get(urlBase, {
+    params: {
+      mode: 'create-job',
+      title: title,
+      category: category,
+      author_id: my_id,
+      detail: detail,
+      reward: reward
+    }
+  })
+  .then((res) => {
+    router.reload();
+  });;
+};
 
 type JobOffer = {
   logo: any;
@@ -23,7 +53,9 @@ type JobOffer = {
   title: string;
   detail: string;
 };
+
 const Student: NextPage = () => {
+  const router = useRouter();
   const sampleItems: JobOffer[] = [
     {
       id: 1,
@@ -48,15 +80,14 @@ const Student: NextPage = () => {
     },
   ];
 
-  // TODO: 一時的にサンプルデータを挿入。APIから取得するようになったら、コメントアウトを外す
-  // const [items, setItems] = useState<JobOffer[]>([]);
-  const [items, setItems] = useState<JobOffer[]>(sampleItems);
-
+  const [jobTitle, setJobTitle] = useState("");
+  const [jobCategory, setJobCategory] = useState("");
+  const [jobDetail, setJobDetail] = useState("");
+  const [jobReward, setJobReward] = useState("");
+  const [myId, setMyId] = useState();
   useEffect(() => {
     console.log("useEffect");
-
-    // TODO: api 呼んでsetする
-    // setItems()
+    setMyId(localStorage.getItem('id'));
   }, []);
 
   return (
@@ -73,34 +104,58 @@ const Student: NextPage = () => {
         <AppBar position="static">企業求人追加ページ。ここはヘッダー</AppBar>
       </header>
       <main className={styles.main}>
-        <form style={{ width: "90%", margin: "0 5%" }}>
-          <Typography>課題</Typography>
-          <TextField
-            label="求人タイトル"
-            placeholder="求人タイトル"
-            variant="outlined"
-            fullWidth
-          />
-          <br />
-          <TextField
-            label="分野"
-            placeholder="分野"
-            variant="outlined"
-            fullWidth
-          />
-          <br />
-          <TextField
-            label="求人詳細"
-            placeholder="求人詳細"
-            variant="outlined"
-            multiline
-            rows={5}
-            fullWidth
-          />
-          <br />
-          <TextField label="報酬" placeholder="￥" fullWidth />
-          <input type="submit" onSubmit={() => console.log("")} value="登録" />
-        </form>
+        <Card
+          variant="outlined"
+          sx={{ width: "100%", margin: "5px", marginTop:"50px" }}
+        >
+          <CardContent>
+            <Typography>案件の追加</Typography>
+  
+            <TextField
+              onChange={(event) => setJobTitle(event.target.value)}
+              label="タイトル"
+              id="filled-hidden-label-small"
+              variant="filled"
+              size="small"
+              sx={{ width: "100%", my: "10px" }}      
+            />
+
+            <TextField
+              onChange={(event) => setJobCategory(event.target.value)}
+              label="カテゴリ"
+              id="filled-hidden-label-small"
+              variant="filled"
+              size="small"
+              sx={{ width: "100%", my: "10px" }}      
+            />
+    
+            <TextField
+              onChange={(event) => setJobDetail(event.target.value)}
+              id="filled-hidden-label-small"
+              label="内容"
+              multiline
+              rows={4}
+              sx={{ width: "100%", my: "10px" }}      
+            />
+
+            <TextField
+              onChange={(event) => setJobReward(event.target.value)}
+              id="filled-hidden-label-small"
+              label="報酬"
+              variant="filled"
+              size="small"
+              sx={{ width: "100%", my: "10px" }}      
+            />
+
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => onClickHandler(myId, jobTitle, jobCategory, jobDetail, jobReward, router)}
+            >
+              送信
+            </Button>
+          </CardContent>
+        </Card>
       </main>
 
       <footer className={styles.footer}>
