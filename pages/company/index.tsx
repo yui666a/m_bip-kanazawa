@@ -28,43 +28,20 @@ type JobOffer = {
   reward?: number;
 };
 
+var my_id = localStorage.getItem('id');
+
 const Company: NextPage = () => {
-  // const sampleItems: JobOffer[] = [
-  //   {
-  //     id: 1,
-  //     logo: "",
-  //     category: "AAA",
-  //     title: "aaaaa",
-  //     detail: "this is detail",
-  //     reward: 3000000,
-  //   },
-  //   {
-  //     id: 2,
-  //     logo: "",
-  //     category: "BBB",
-  //     title: "bbbbbbb",
-  //     detail: "this is detail",
-  //     reward: 4000000,
-  //   },
-  //   {
-  //     id: 3,
-  //     logo: "",
-  //     category: "CCC",
-  //     title: "cccccccc",
-  //     detail: "this is detail",
-  //     reward: 5000000,
-  //   },
-  // ];
 
   const [items, setItems] = useState<JobOffer[]>([]);
 
   const baseUrl =
-  "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec?mode=jobs&author_id=3";
+  "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
 useEffect(() => {
   axios
     .get(baseUrl, {
       params: {
         mode: "jobs",
+        author_id: my_id,
       },
     })
     .then((res: any) => {
