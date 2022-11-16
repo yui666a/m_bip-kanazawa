@@ -1,5 +1,6 @@
 // import { CssVarsProvider } from "@mui/joy/styles";
 import { useState } from "react";
+import Router from "next/router";
 import Sheet from "@mui/joy/Sheet";
 import Typography from "@mui/joy/Typography";
 import TextField from "@mui/joy/TextField";
@@ -12,17 +13,24 @@ export default function App() {
     id: "",
     password: "",
   });
+
   const baseUrl =
     "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
   function tryLogin() {
     axios
-      .post(baseUrl, {
-        mode: "login",
-        id: 1,
-        lastName: "password",
+      .get(baseUrl, {
+        params: {
+          mode: "login",
+          id: inputState.id,
+          password: inputState.password,
+        },
       })
       .then((res: any) => {
-        console.log(res);
+        if (res.data === "password incorrect")
+          setState({ ...inputState, password: "" });
+        if (res.data === "user not fount") setState({ id: "", password: "" });
+
+        res.data.isStudent ? Router.push("/student") : Router.push("/company");
       });
   }
 
@@ -54,6 +62,7 @@ export default function App() {
           type="id"
           label="ID"
           placeholder="ID"
+          value={inputState.id}
           onChange={(e) => setState({ ...inputState, id: e.target.value })}
         />
         <TextField
@@ -61,6 +70,7 @@ export default function App() {
           type="password"
           placeholder="password"
           label="パスワード"
+          value={inputState.password}
           onChange={(e) =>
             setState({ ...inputState, password: e.target.value })
           }
