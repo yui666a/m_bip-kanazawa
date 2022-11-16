@@ -29,7 +29,8 @@ export default function App() {
         if (res.data === "password incorrect")
           setState({ ...inputState, password: "" });
         if (res.data === "user not fount") setState({ id: "", password: "" });
-
+        localStorage.setItem("id", res.data.id);
+        localStorage.setItem("userId", res.data.userId);
         res.data.isStudent ? Router.push("/student") : Router.push("/company");
       });
   }
