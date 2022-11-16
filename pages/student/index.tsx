@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Router from "next/router";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import styles from "/styles/Home.module.css";
 import AppBar from "@mui/material/AppBar";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
