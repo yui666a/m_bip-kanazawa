@@ -131,6 +131,26 @@ const Task: NextPage = () => {
             </Button>
             {/* </Card> */}
           </Box>
+          <Typography variant="h2" align="left">
+            他のドクターの回答
+          </Typography>
+          <Card
+            variant="outlined"
+            sx={{ width: "100%", margin: "5px", marginBottom: "50px" }}
+          >
+            <ul>
+              {job &&
+                job.ideas.map((idea: any) => {
+                  return (
+                    <li key={idea.title}>
+                      <Typography variant="h6" align="left">
+                        {idea.title}
+                      </Typography>
+                    </li>
+                  );
+                })}
+            </ul>
+          </Card>
         </main>
 
         <footer className={styles.footer}>
