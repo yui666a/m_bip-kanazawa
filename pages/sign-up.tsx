@@ -15,6 +15,10 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 
 // const theme = createTheme();
 
@@ -93,25 +97,26 @@ export default function SignUp() {
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
+              {/* <Grid item xs={12} sm={6}> */}
               <TextField
-                autoComplete="given-name"
+                autoComplete="氏名"
                 required
                 fullWidth
-                name="氏名（姓）"
-                id="氏名（姓）"
-                label="氏名（姓）"
+                name="氏名"
+                id="氏名"
+                label="氏名"
                 autoFocus
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
-                id="氏名（名）"
-                label="氏名（名）"
-                name="氏名（名）"
-                autoComplete="family-name"
+                id="USER ID"
+                label="USER ID"
+                name="USER ID"
+                autoComplete="ID"
               />
             </Grid>
             <Grid item xs={12}>
@@ -136,11 +141,30 @@ export default function SignUp() {
               />
             </Grid>
             <Grid item xs={12}>
+              <RadioGroup
+                aria-labelledby="aaa"
+                defaultValue="学生"
+                name="isStudent"
+                style={{ display: "flex", flexDirection: "row" }}
+              >
+                <FormControlLabel
+                  value="true"
+                  control={<Radio />}
+                  label="学生"
+                />
+                <FormControlLabel
+                  value="false"
+                  control={<Radio />}
+                  label="企業"
+                />
+              </RadioGroup>
+            </Grid>
+            {/* <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="規約に同意する"
               />
-            </Grid>
+            </Grid> */}
           </Grid>
           <Button
             type="submit"
