@@ -2,13 +2,78 @@ import type { NextPage } from "next";
 import Router from "next/router";
 import Head from "next/head";
 import styles from "../../styles/Home.module.css";
+import AppBar from "@mui/material/AppBar";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+
 import Button from "@mui/material/Button";
 import SchoolIcon from "@mui/icons-material/School";
 import WorkIcon from "@mui/icons-material/Work";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import LoginIcon from "@mui/icons-material/Login";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-const Home: NextPage = () => {
+import { useEffect, useState } from "react";
+import { Typography } from "@mui/material";
+import Image from "next/image";
+import axios from "axios";
+
+
+
+type JobOffer = {
+  logo?: any;
+  id: number;
+  category: string;
+  title: string;
+  detail?: string;
+  reward?: number;
+};
+
+const Company: NextPage = () => {
+  // const sampleItems: JobOffer[] = [
+  //   {
+  //     id: 1,
+  //     logo: "",
+  //     category: "AAA",
+  //     title: "aaaaa",
+  //     detail: "this is detail",
+  //     reward: 3000000,
+  //   },
+  //   {
+  //     id: 2,
+  //     logo: "",
+  //     category: "BBB",
+  //     title: "bbbbbbb",
+  //     detail: "this is detail",
+  //     reward: 4000000,
+  //   },
+  //   {
+  //     id: 3,
+  //     logo: "",
+  //     category: "CCC",
+  //     title: "cccccccc",
+  //     detail: "this is detail",
+  //     reward: 5000000,
+  //   },
+  // ];
+
+  const [items, setItems] = useState<JobOffer[]>([]);
+
+  const baseUrl =
+  "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec?mode=jobs&author_id=3";
+useEffect(() => {
+  axios
+    .get(baseUrl, {
+      params: {
+        mode: "jobs",
+      },
+    })
+    .then((res: any) => {
+      console.log(res.data);
+      setItems(res.data);
+    });
+}, []);
+
+
   return (
     <div className={styles.container}>
       <Head>
@@ -20,42 +85,60 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <header className={styles.title}>
+        <AppBar position="static">Company My Page</AppBar>
+      </header>
+
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          イノベーションを起こすならば
-          <br />
-          カイドク！
-        </h1>
+
 
         <Button
           variant="contained"
-          startIcon={<WorkIcon />}
-          endIcon={<StorefrontIcon />}
-          onClick={() => Router.push("/company")}
+          // startIcon={<WorkIcon />}
+          // endIcon={<StorefrontIcon />}
+          onClick={() => Router.push("/company/add")}
         >
-          企業の方はこちら
+          {/* 新しく質問する */}
+          <Typography variant="h4">新しく質問する</Typography>
         </Button>
-        <Button
-          variant="contained"
-          startIcon={<SchoolIcon />}
-          onClick={() => Router.push("/student")}
-        >
-          学生の方はこちら
-        </Button>
-        <Button
-          variant="outlined"
-          endIcon={<LoginIcon />}
-          onClick={() => Router.push("/login")}
-        >
-          ログイン
-        </Button>
-        <Button
-          variant="outlined"
-          endIcon={<PersonAddAltIcon />}
-          onClick={() => Router.push("/sign-up")}
-        >
-          新規登録
-        </Button>
+
+        {items &&
+          items.map((item: JobOffer) => {
+            return (
+              <Card
+                variant="outlined"
+                sx={{ width: "100%", margin: "5px", borderRadius: "2em" }}
+                key={item.id}
+                onClick={() => Router.push("company/task/" + item.id)}
+              >
+                <CardContent>
+                  {/* <Image>{item.logo}</Image> */}
+                  <Typography variant="h4">{item.title}</Typography>
+                  <div
+                    style={{
+                      display: "flex",
+                      fontSize: "0.9em",
+                      color: "gray",
+                    }}
+                  >
+                    カテゴリ：
+                    <Typography>{item.category}</Typography>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      fontSize: "0.9em",
+                      color: "gray",
+                    }}
+                  >
+                    ￥<Typography>{item.reward}</Typography>
+                  </div>
+                  <Typography>{item.detail}</Typography>
+                </CardContent>
+              </Card>
+            );
+          })}
+
       </main>
 
       <footer className={styles.footer}>
@@ -72,4 +155,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Company;
