@@ -15,6 +15,7 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
 import Image from "next/image";
+import axios from "axios";
 
 type JobOffer = {
   logo: any;
@@ -49,14 +50,21 @@ const Student: NextPage = () => {
   ];
 
   // TODO: 一時的にサンプルデータを挿入。APIから取得するようになったら、コメントアウトを外す
-  // const [items, setItems] = useState<JobOffer[]>([]);
-  const [items, setItems] = useState<JobOffer[]>(sampleItems);
-
+  const [items, setItems] = useState<JobOffer[]>([]);
+  // const [items, setItems] = useState<JobOffer[]>();
+  const baseUrl =
+    "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
   useEffect(() => {
-    console.log("useEffect");
-
-    // TODO: api 呼んでsetする
-    // setItems()
+    axios
+      .get(baseUrl, {
+        params: {
+          mode: "jobs",
+        },
+      })
+      .then((res: any) => {
+        console.log(res.data);
+        setItems(res.data);
+      });
   }, []);
 
   return (
@@ -72,19 +80,25 @@ const Student: NextPage = () => {
       <header className={styles.title}>
         <AppBar position="static">学生ページ。ここはヘッダー</AppBar>
       </header>
-      <main className={styles.main}>
+      <main className={styles.main} style={{ justifyContent: "unset" }}>
         {items &&
           items.map((item: JobOffer) => {
             return (
               <Card
                 variant="outlined"
-                sx={{ width: "100%", margin: "5px" }}
+                sx={{ width: "100%", margin: "5px", borderRadius: "2em" }}
                 key={item.id}
+                onClick={() => Router.push("/student/task/" + item.id)}
               >
                 <CardContent>
                   {/* <Image>{item.logo}</Image> */}
-                  <Typography>{item.category}</Typography>
-                  <Typography>{item.title}</Typography>
+                  <Typography variant="h4">{item.title}</Typography>
+                  <div style={{ display: "flex", fontSize: "0.9em" }}>
+                    カテゴリ：
+                    <Typography style={{ color: "gray" }}>
+                      {item.category}
+                    </Typography>
+                  </div>
                   <Typography>{item.detail}</Typography>
                 </CardContent>
               </Card>
