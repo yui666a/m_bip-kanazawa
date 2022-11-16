@@ -47,16 +47,16 @@ const onClickHandler = (my_id: number, task_id: number, title: string, detail: s
       title: title,
       detail: detail
     }
+  })
+  .then((res) => {
+    router.reload();
   });
-  router.reload();
 };
 
 const Task: NextPage = () => {
   const router = useRouter();
   const { task_id } = router.query;
   const [jobData, setJobDatas] = useState({});
-  const [ideasData, setIdeasDatas] = useState({});
-  const [items, setItems] = useState([]);
   const [ideaTitle, setIdeaTitle] = useState('');
   const [ideaDetail, setIdeaDetail] = useState('');
   const urlBase =
@@ -70,17 +70,11 @@ const Task: NextPage = () => {
     axios.get(urlApiJob).then((res) => {
       if (res.data !== "job not found") {
         setJobDatas(res.data);
-
-        const urlApiIdeas =
-          "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec?mode=ideas";
-        axios.get(urlApiIdeas).then((resIdeas) => {
-          if (resIdeas.data !== "job not found") {
-            setIdeasDatas(resIdeas.data);
-          }
-        });
       }
     });
   }, [task_id]);
+
+  // console.log(jobData);
 
   let author_name = "";
   let author_id = -1;
@@ -100,17 +94,13 @@ const Task: NextPage = () => {
   // ideaリストを走査していき、task_idと一致するものだけideaidを取得
   let ideaIdList: any[] = new Array(0);
   try {
-    console.log("要素数:" + Object.keys(ideasData).length);
-    ideasData.forEach((idea) => {
-      console.log("idea");
-      if (idea.job.id == task_id) {
-        ideaIdList.push(idea.id);
-        // console.log(idea.job.id);
-      }
-    });
+    // console.log("要素数:" + jobData.ideas.length);
+    let len = jobData.ideas.length;
+    ideaIdList = [...Array(len)].map((_:undefined, idx:number) => idx);
   } catch (e) {
-    console.log(`エラー発生 ${e}`);
+    // console.log(`エラー発生 ${e}`);
   }
+  // console.log(ideaIdList);
 
   var my_id = localStorage.getItem('id');
   // setItems(ideaIdList);
@@ -176,8 +166,8 @@ const Task: NextPage = () => {
 
         {ideaIdList &&
           ideaIdList.map((item_id: any) => {
-            let idea = ideasData[(item_id - 1).toString()];
-            console.log(idea);
+            let idea = jobData.ideas[item_id];
+            // console.log(idea);
 
             let idea_author_name = "";
             let idea_author_id = -1;
@@ -185,7 +175,7 @@ const Task: NextPage = () => {
               idea_author_name = idea.author.name;
               author_id = idea.author.id;
             } catch (e) {
-              console.log(`エラー発生 ${e}`);
+              // console.log(`エラー発生 ${e}`);
             }
 
             return (
