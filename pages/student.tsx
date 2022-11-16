@@ -18,11 +18,12 @@ import Image from "next/image";
 import axios from "axios";
 
 type JobOffer = {
-  logo: any;
+  logo?: any;
   id: number;
   category: string;
   title: string;
-  detail: string;
+  detail?: string;
+  reward?: number;
 };
 const Student: NextPage = () => {
   const sampleItems: JobOffer[] = [
@@ -93,11 +94,24 @@ const Student: NextPage = () => {
                 <CardContent>
                   {/* <Image>{item.logo}</Image> */}
                   <Typography variant="h4">{item.title}</Typography>
-                  <div style={{ display: "flex", fontSize: "0.9em" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      fontSize: "0.9em",
+                      color: "gray",
+                    }}
+                  >
                     カテゴリ：
-                    <Typography style={{ color: "gray" }}>
-                      {item.category}
-                    </Typography>
+                    <Typography>{item.category}</Typography>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      fontSize: "0.9em",
+                      color: "gray",
+                    }}
+                  >
+                    ￥<Typography>{item.reward}</Typography>
                   </div>
                   <Typography>{item.detail}</Typography>
                 </CardContent>
