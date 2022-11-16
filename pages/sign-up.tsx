@@ -23,59 +23,29 @@ import FormLabel from "@mui/material/FormLabel";
 // const theme = createTheme();
 
 export default function SignUp() {
-  const [inputState, setState] = useState({
-    name: "aaa",
-    isStudent: true,
-    password: "eee",
-  });
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // const data = new FormData(event.currentTarget);
-    // console.log({
-    //   email: data.get("email"),
-    //   password: data.get("password"),
-    // });
-    axios
-      .get(baseUrl, {
-        params: {
-          mode: "sign-up",
-          ...inputState,
-        },
-      })
-      .then((res: any) => {
-        console.log(res);
-        // if (res.data === "password incorrect")
-        //   setState({ ...inputState, password: "" });
-        // if (res.data === "user not fount") setState({ id: "", password: "" });
+    const data = new FormData(event.currentTarget);
 
-        // res.data.isStudent ? Router.push("/student") : Router.push("/company");
-      });
+    const params = {
+      mode: "sign-up",
+      name: data.get("name"),
+      // belong: data.get("name"),
+      // self_introduce: data.get("name"),
+      userId: data.get("user_id"),
+      isStudent: data.get("isStudent"),
+      email: data.get("email"),
+      password: data.get("password"),
+    };
+    axios.get(baseUrl, { params: params }).then((res: any) => {
+      res.data.id && params.isStudent
+        ? Router.push("/student")
+        : Router.push("/company");
+    });
   };
 
   const baseUrl =
     "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
-  function createAccount() {
-    axios
-      .get(baseUrl, {
-        params: {
-          mode: "sing-up",
-          name: "aaa",
-          belong: "bbb",
-          self_introduce: "ccc",
-          isStudent: true,
-          password: "eee",
-        },
-      })
-      .then((res: any) => {
-        console.log(res);
-        // if (res.data === "password incorrect")
-        //   setState({ ...inputState, password: "" });
-        // if (res.data === "user not fount") setState({ id: "", password: "" });
-
-        // res.data.isStudent ? Router.push("/student") : Router.push("/company");
-      });
-  }
 
   return (
     // <ThemeProvider theme={theme}>
@@ -103,8 +73,8 @@ export default function SignUp() {
                 autoComplete="氏名"
                 required
                 fullWidth
-                name="氏名"
-                id="氏名"
+                name="name"
+                id="name"
                 label="氏名"
                 autoFocus
               />
@@ -113,9 +83,9 @@ export default function SignUp() {
               <TextField
                 required
                 fullWidth
-                id="USER ID"
+                id="user_id"
                 label="USER ID"
-                name="USER ID"
+                name="user_id"
                 autoComplete="ID"
               />
             </Grid>
