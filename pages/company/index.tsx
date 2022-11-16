@@ -15,49 +15,64 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
 import Image from "next/image";
+import axios from "axios";
 
-// company my page
+
 
 type JobOffer = {
-  logo: any;
+  logo?: any;
   id: number;
   category: string;
   title: string;
-  detail: string;
-  reward: number;
+  detail?: string;
+  reward?: number;
 };
 
 const Company: NextPage = () => {
-  const sampleItems: JobOffer[] = [
-    {
-      id: 1,
-      logo: "",
-      category: "AAA",
-      title: "aaaaa",
-      detail: "this is detail",
-      reward: 3000000,
-    },
-    {
-      id: 2,
-      logo: "",
-      category: "BBB",
-      title: "bbbbbbb",
-      detail: "this is detail",
-      reward: 4000000,
-    },
-    {
-      id: 3,
-      logo: "",
-      category: "CCC",
-      title: "cccccccc",
-      detail: "this is detail",
-      reward: 5000000,
-    },
-  ];
+  // const sampleItems: JobOffer[] = [
+  //   {
+  //     id: 1,
+  //     logo: "",
+  //     category: "AAA",
+  //     title: "aaaaa",
+  //     detail: "this is detail",
+  //     reward: 3000000,
+  //   },
+  //   {
+  //     id: 2,
+  //     logo: "",
+  //     category: "BBB",
+  //     title: "bbbbbbb",
+  //     detail: "this is detail",
+  //     reward: 4000000,
+  //   },
+  //   {
+  //     id: 3,
+  //     logo: "",
+  //     category: "CCC",
+  //     title: "cccccccc",
+  //     detail: "this is detail",
+  //     reward: 5000000,
+  //   },
+  // ];
 
-  // TODO: 一時的にサンプルデータを挿入。APIから取得するようになったら、コメントアウトを外す
-  // const [items, setItems] = useState<JobOffer[]>([]);
-  const [items, setItems] = useState<JobOffer[]>(sampleItems);
+  const [items, setItems] = useState<JobOffer[]>([]);
+
+  const baseUrl =
+  "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec?mode=jobs&author_id=3";
+useEffect(() => {
+  axios
+    .get(baseUrl, {
+      params: {
+        mode: "jobs",
+      },
+    })
+    .then((res: any) => {
+      console.log(res.data);
+      setItems(res.data);
+    });
+}, []);
+
 
   return (
     <div className={styles.container}>
@@ -81,9 +96,10 @@ const Company: NextPage = () => {
           variant="contained"
           // startIcon={<WorkIcon />}
           // endIcon={<StorefrontIcon />}
-          onClick={() => Router.push("add.tsx")}
+          onClick={() => Router.push("/company/add")}
         >
-          新しく質問する
+          {/* 新しく質問する */}
+          <Typography variant="h4">新しく質問する</Typography>
         </Button>
 
         {items &&
@@ -91,13 +107,32 @@ const Company: NextPage = () => {
             return (
               <Card
                 variant="outlined"
-                sx={{ width: "100%", margin: "5px" }}
+                sx={{ width: "100%", margin: "5px", borderRadius: "2em" }}
                 key={item.id}
+                onClick={() => Router.push("company/task/" + item.id)}
               >
                 <CardContent>
                   {/* <Image>{item.logo}</Image> */}
-                  <Typography>{item.category}</Typography>
-                  <Typography>{item.title}</Typography>
+                  <Typography variant="h4">{item.title}</Typography>
+                  <div
+                    style={{
+                      display: "flex",
+                      fontSize: "0.9em",
+                      color: "gray",
+                    }}
+                  >
+                    カテゴリ：
+                    <Typography>{item.category}</Typography>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      fontSize: "0.9em",
+                      color: "gray",
+                    }}
+                  >
+                    ￥<Typography>{item.reward}</Typography>
+                  </div>
                   <Typography>{item.detail}</Typography>
                 </CardContent>
               </Card>
