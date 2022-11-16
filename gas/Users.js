@@ -11,11 +11,12 @@ function getUsers() {
   return data_set.map((data) => {
     return {
       id: data[0],
-      name: data[1],
-      belong: data[2],
-      self_introduce: data[3],
-      isStudent: data[4],
-      password: data[5],
+      userId: data[1],
+      name: data[2],
+      belong: data[3],
+      self_introduce: data[4],
+      isStudent: data[5],
+      password: data[6],
     }
   })
 }
@@ -24,7 +25,7 @@ function tryLogin(e) {
   id = e.parameter.id;
   passwd = e.parameter.password;
 
-  let users = getUsers().filter((user) => user.id == id)
+  let users = getUsers().filter((user) => user.userId == id)
   if (users.length == 0) {
     return "user not fount"
   } else {
@@ -39,15 +40,15 @@ function tryLogin(e) {
 function createUser(e) {
   // 途中の行が削除されない限り有効
   id = userSheet.getLastRow()
-
   // 以下はparamterで受け取る
+  userId = e.parameter.userId
   name = e.parameter.name
   belong = e.parameter.belong
   self_introduce = e.parameter.self_introduce
   isStudent = e.parameter.isStudent
   password = e.parameter.password
 
-  userSheet.appendRow([id, name, belong, self_introduce, isStudent, password]);
+  userSheet.appendRow([id, userId, name, belong, self_introduce, isStudent, password]);
   return {
     status: 200,
     message: "success",
@@ -59,7 +60,7 @@ function createUser(e) {
  * 
  */
 function getUserById(id) {
-  const items = getUsers().filter((item) => item.id == id)
+  const items = getUsers().filter((item) => item.userId == id)
   if (items.length == 0) {
     return "user not found"
   } else {

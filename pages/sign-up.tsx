@@ -1,4 +1,6 @@
-import * as React from "react";
+import { useState } from "react";
+import Router from "next/router";
+
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,6 +14,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 
 // const theme = createTheme();
 
@@ -19,11 +26,26 @@ export default function SignUp() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+
+    const params = {
+      mode: "sign-up",
+      name: data.get("name"),
+      // belong: data.get("name"),
+      // self_introduce: data.get("name"),
+      userId: data.get("user_id"),
+      isStudent: data.get("isStudent"),
       email: data.get("email"),
       password: data.get("password"),
+    };
+    axios.get(baseUrl, { params: params }).then((res: any) => {
+      res.data.id && params.isStudent
+        ? Router.push("/student")
+        : Router.push("/company");
     });
   };
+
+  const baseUrl =
+    "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
 
   return (
     // <ThemeProvider theme={theme}>
@@ -45,25 +67,26 @@ export default function SignUp() {
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
+              {/* <Grid item xs={12} sm={6}> */}
               <TextField
-                autoComplete="given-name"
+                autoComplete="氏名"
                 required
                 fullWidth
-                name="氏名（姓）"
-                id="氏名（姓）"
-                label="氏名（姓）"
+                name="name"
+                id="name"
+                label="氏名"
                 autoFocus
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
-                id="氏名（名）"
-                label="氏名（名）"
-                name="氏名（名）"
-                autoComplete="family-name"
+                id="user_id"
+                label="USER ID"
+                name="user_id"
+                autoComplete="ID"
               />
             </Grid>
             <Grid item xs={12}>
@@ -88,17 +111,37 @@ export default function SignUp() {
               />
             </Grid>
             <Grid item xs={12}>
+              <RadioGroup
+                aria-labelledby="aaa"
+                defaultValue="学生"
+                name="isStudent"
+                style={{ display: "flex", flexDirection: "row" }}
+              >
+                <FormControlLabel
+                  value="true"
+                  control={<Radio />}
+                  label="学生"
+                />
+                <FormControlLabel
+                  value="false"
+                  control={<Radio />}
+                  label="企業"
+                />
+              </RadioGroup>
+            </Grid>
+            {/* <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="規約に同意する"
               />
-            </Grid>
+            </Grid> */}
           </Grid>
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            // onClick={createAccount}
           >
             登録する
           </Button>
