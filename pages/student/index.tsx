@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Router from "next/router";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import styles from "/styles/Home.module.css";
 import AppBar from "@mui/material/AppBar";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -69,7 +69,7 @@ const Student: NextPage = () => {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>カイドク</title>
         <meta
@@ -79,58 +79,60 @@ const Student: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header className={styles.title}>
-        <AppBar position="static">学生ページ。ここはヘッダー</AppBar>
+        <AppBar position="static">　</AppBar>
       </header>
-      <main className={styles.main} style={{ justifyContent: "unset" }}>
-        {items &&
-          items.map((item: JobOffer) => {
-            return (
-              <Card
-                variant="outlined"
-                sx={{ width: "100%", margin: "5px", borderRadius: "2em" }}
-                key={item.id}
-                onClick={() => Router.push("/student/task/" + item.id)}
-              >
-                <CardContent>
-                  {/* <Image>{item.logo}</Image> */}
-                  <Typography variant="h4">{item.title}</Typography>
-                  <div
-                    style={{
-                      display: "flex",
-                      fontSize: "0.9em",
-                      color: "gray",
-                    }}
-                  >
-                    カテゴリ：
-                    <Typography>{item.category}</Typography>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      fontSize: "0.9em",
-                      color: "gray",
-                    }}
-                  >
-                    ￥<Typography>{item.reward}</Typography>
-                  </div>
-                  <Typography>{item.detail}</Typography>
-                </CardContent>
-              </Card>
-            );
-          })}
-      </main>
+      <div className={styles.container}>
+        <main className={styles.main} style={{ justifyContent: "unset" }}>
+          {items &&
+            items.map((item: JobOffer) => {
+              return (
+                <Card
+                  variant="outlined"
+                  sx={{ width: "100%", margin: "5px", borderRadius: "2em" }}
+                  key={item.id}
+                  onClick={() => Router.push("/student/task/" + item.id)}
+                >
+                  <CardContent>
+                    {/* <Image>{item.logo}</Image> */}
+                    <Typography variant="h4">{item.title}</Typography>
+                    <div
+                      style={{
+                        display: "flex",
+                        fontSize: "0.9em",
+                        color: "gray",
+                      }}
+                    >
+                      カテゴリ：
+                      <Typography>{item.category}</Typography>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        fontSize: "0.9em",
+                        color: "gray",
+                      }}
+                    >
+                      ￥<Typography>{item.reward}</Typography>
+                    </div>
+                    <Typography>{item.detail}</Typography>
+                  </CardContent>
+                </Card>
+              );
+            })}
+        </main>
 
-      <footer className={styles.footer}>
-        <a
-          // TODO: ここを修正する。
-          href="https://www.nagaokaut.ac.jp/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by NAKAJIMA, Keita
-        </a>
-      </footer>
-    </div>
+        <footer className={styles.footer}>
+          <a
+            // TODO: ここを修正する。
+            href="https://www.nagaokaut.ac.jp/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Powered by NAKAJIMA, Keita
+          </a>
+        </footer>
+      </div>
+    </>
   );
 };
 

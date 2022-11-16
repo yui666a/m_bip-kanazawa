@@ -22,28 +22,36 @@ import Image from "next/image";
 import axios from "axios";
 import { width } from "@mui/system";
 
-
-const onClickHandler = (my_id: number, title: string, category: string, detail: string, reward: string, router: any) => {
+const onClickHandler = (
+  my_id: number,
+  title: string,
+  category: string,
+  detail: string,
+  reward: string,
+  router: any
+) => {
   console.log("post");
   if (title === "" || detail === "") {
     alert("タイトルと詳細を入力してください。");
     return;
   }
 
-  const urlBase = "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
-  axios.get(urlBase, {
-    params: {
-      mode: 'create-job',
-      title: title,
-      category: category,
-      author_id: my_id,
-      detail: detail,
-      reward: reward
-    }
-  })
-  .then((res) => {
-    router.reload();
-  });;
+  const urlBase =
+    "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
+  axios
+    .get(urlBase, {
+      params: {
+        mode: "create-job",
+        title: title,
+        category: category,
+        author_id: my_id,
+        detail: detail,
+        reward: reward,
+      },
+    })
+    .then((res) => {
+      router.reload();
+    });
 };
 
 type JobOffer = {
@@ -84,10 +92,10 @@ const Student: NextPage = () => {
   const [jobCategory, setJobCategory] = useState("");
   const [jobDetail, setJobDetail] = useState("");
   const [jobReward, setJobReward] = useState("");
-  const [myId, setMyId] = useState();
+  const [myId, setMyId] = useState<number>();
   useEffect(() => {
     console.log("useEffect");
-    setMyId(localStorage.getItem('id'));
+    setMyId(Number(localStorage.getItem("id")));
   }, []);
 
   return (
@@ -106,18 +114,18 @@ const Student: NextPage = () => {
       <main className={styles.main}>
         <Card
           variant="outlined"
-          sx={{ width: "100%", margin: "5px", marginTop:"50px" }}
+          sx={{ width: "100%", margin: "5px", marginTop: "50px" }}
         >
           <CardContent>
             <Typography>案件の追加</Typography>
-  
+
             <TextField
               onChange={(event) => setJobTitle(event.target.value)}
               label="タイトル"
               id="filled-hidden-label-small"
               variant="filled"
               size="small"
-              sx={{ width: "100%", my: "10px" }}      
+              sx={{ width: "100%", my: "10px" }}
             />
 
             <TextField
@@ -126,16 +134,16 @@ const Student: NextPage = () => {
               id="filled-hidden-label-small"
               variant="filled"
               size="small"
-              sx={{ width: "100%", my: "10px" }}      
+              sx={{ width: "100%", my: "10px" }}
             />
-    
+
             <TextField
               onChange={(event) => setJobDetail(event.target.value)}
               id="filled-hidden-label-small"
               label="内容"
               multiline
               rows={4}
-              sx={{ width: "100%", my: "10px" }}      
+              sx={{ width: "100%", my: "10px" }}
             />
 
             <TextField
@@ -144,13 +152,22 @@ const Student: NextPage = () => {
               label="報酬"
               variant="filled"
               size="small"
-              sx={{ width: "100%", my: "10px" }}      
+              sx={{ width: "100%", my: "10px" }}
             />
 
             <Button
               variant="contained"
               color="primary"
-              onClick={() => onClickHandler(myId, jobTitle, jobCategory, jobDetail, jobReward, router)}
+              onClick={() =>
+                onClickHandler(
+                  myId!,
+                  jobTitle,
+                  jobCategory,
+                  jobDetail,
+                  jobReward,
+                  router
+                )
+              }
             >
               送信
             </Button>
