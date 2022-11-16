@@ -28,19 +28,35 @@ type JobOffer = {
   detail: string;
 };
 
-const Student: NextPage = () => {
+const Task: NextPage = () => {
   const router = useRouter();
   const { task_id } = router.query;
-  const [items, setItems] = useState([1, 2, 3]);
 
-  const urlApiJob = "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec?mode=job&id="+task_id;
-  const [jobData, setJobDatas] = useState([]);
-  axios.get(urlApiJob).then((res)=> {
-    if (res.data !== "job not found") {
-      setJobDatas(res.data);
-      // console.log(res.data)
-    }
-  }) 
+  const [jobData, setJobDatas] = useState({});
+  const [ideasData, setIdeasDatas] = useState({});
+
+  const [items, setItems] = useState([]);
+
+  const urlBase = "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
+
+  // task_idが変わるたびに処理を実行
+  useEffect(() => {
+    console.log("useEffect");
+    console.log(task_id);
+    const urlApiJob = urlBase + "?mode=job&id=" + task_id;
+    axios.get(urlApiJob).then((res)=> {
+      if (res.data !== "job not found") {
+        setJobDatas(res.data);
+    
+        const urlApiIdeas = "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec?mode=ideas";
+        axios.get(urlApiIdeas).then((resIdeas)=> {
+          if (resIdeas.data !== "job not found") {
+            setIdeasDatas(resIdeas.data);
+          }
+        })
+      }
+    })
+  }, [task_id]);
 
   let author_name = "";
   let author_id = -1;
@@ -50,122 +66,163 @@ const Student: NextPage = () => {
     author_id = jobData.author.id;
     state_str = "回答受付中"
   } catch (e) {
+    // console.log(`エラー発生 ${e}`);
+  }
+
+  if (author_id === -1)
+  {
+    return;
+  }
+
+
+  // ideaリストを走査していき、task_idと一致するものだけideaidを取得
+  let ideaIdList: any[] = new Array(0);
+  try {
+    console.log("要素数:"+Object.keys(ideasData).length);
+    ideasData.forEach(idea => {
+      console.log("idea");
+      if (idea.job.id == task_id)
+      {
+        ideaIdList.push(idea.id);
+        // console.log(idea.job.id);
+      }
+    });
+  } catch (e) {
     console.log(`エラー発生 ${e}`);
   }
 
-  console.log(jobData);
-  console.log(author_name);
-  console.log(author_id);
+  // setItems(ideaIdList);
+  
 
-  useEffect(() => {
-    console.log("useEffect");
-  }, []);(author_name);
-  console.log(author_id);
-
-  useEffect(() => {
-    console.log("useEffect");
-  }, []);
-
+  // console.log("jobData");
+  // console.log(jobData);
+  console.log("ideasData");
+  console.log(ideasData);
   console.log("");
-  if (author_id !== -1)
-  {
-    return (
-      <div className={styles.container}>
-        <Head>
-          <title>カイドク</title>
-          <meta
-            name="description"
-            content="イノベーションを起こすならば　カイドク！"
-          />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <header className={styles.title}>
-          <AppBar position="static">企業求人追加ページ。ここはヘッダー</AppBar>
-        </header>
+  
 
-        <main className={styles.main}>
-          <Card
-            variant="outlined"
-            sx={{ width: "100%", margin: "5px" }}
-            // key={item.id}
-          >
-            <CardContent>
-              <Typography 
-                variant="h6"
-                align="left"
-              >
-                {state_str}
-              </Typography>
-              
-              <Typography 
-                variant="h4"
-                align="left"
-                sx={{borderBottom: 1, borderColor: '#eaeaea'}}
-              >
-                {jobData["title"]} #{jobData["id"]}
-              </Typography>
-              
-              <Typography
-                sx={{ width: "100%", my: "10px" }}            
-              >
-                カテゴリ：{jobData["category"]}
-              </Typography>
-  
-      
-              <Typography
-                sx={{ width: "100%", my: "10px" }}            
-              >
-                <a href="https://www.nagaokaut.ac.jp/" target="_blank">{author_name} さん</a>
-              </Typography>
-              
-              <Typography
-                sx={{ width: "100%", padding: "10px" }}            
-              >
-                {jobData["detail"]}
-              </Typography>
-  
-            </CardContent>
-          </Card>
-  
-          
-          {items &&
-            items.map((item: any) => {
-              console.log("item");
-              console.log(item);
+  return (
+    <div className={styles.container}>
+      <Head>
+        <title>カイドク</title>
+        <meta
+          name="description"
+          content="イノベーションを起こすならば　カイドク！"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <header className={styles.title}>
+        <AppBar position="static">企業求人追加ページ。ここはヘッダー</AppBar>
+      </header>
+
+      <main className={styles.main}>
+        <Card
+          variant="outlined"
+          sx={{ width: "100%", margin: "5px", marginBottom: "50px"}}
+          // key={item.id}
+        >
+          <CardContent>
+            <Typography 
+              variant="h6"
+              align="left"
+            >
+              {state_str}
+            </Typography>
+            
+            <Typography 
+              variant="h4"
+              align="left"
+              sx={{borderBottom: 1, borderColor: '#eaeaea'}}
+            >
+              {jobData["title"]} #{jobData["id"]}
+            </Typography>
+            
+            <Typography
+              sx={{ width: "100%", my: "10px" }}            
+            >
+              カテゴリ：{jobData["category"]}
+            </Typography>
+
+    
+            <Typography
+              sx={{ width: "100%", my: "10px" }}            
+            >
+              <a href="https://www.nagaokaut.ac.jp/" target="_blank">{author_name} さん</a>
+            </Typography>
+            
+            <Typography
+              sx={{ width: "100%", padding: "10px" }}            
+            >
+              {jobData["detail"]}
+            </Typography>
+
+          </CardContent>
+        </Card>
+
+        {ideaIdList &&
+            ideaIdList.map((item_id: any) => {
+              let idea = ideasData[(item_id-1).toString()];
+              console.log(idea);
+
+              let idea_author_name = "";
+              let idea_author_id = -1;
+              try {
+                idea_author_name = idea.author.name;
+                author_id = idea.author.id;
+              } catch (e) {
+                console.log(`エラー発生 ${e}`);
+              }
+            
+
               return (
                 <Card
                   variant="outlined"
                   sx={{ width: "100%", margin: "5px" }}
-                  key={item.id}
+                  key={item_id}
                 >
                   <CardContent>
-                    Aさんの案{item}
+                    <Typography
+                      variant="h6"
+                      align="left"
+                    >
+                      [{idea.status}] {idea_author_name} さん
+                    </Typography>
+
+                    <Typography
+                      variant="h6"
+                      align="left"
+                      sx={{borderBottom: 1, borderColor: '#eaeaea'}}
+                    >
+                      {idea.title}
+                    </Typography>
+
+                    <Typography
+                      sx={{ width: "100%", padding: "10px" }}            
+                    >
+                      {idea.detail}
+                    </Typography>
+                    
                     {/* <Image>{item.logo}</Image> */}
-                    <Typography>item.title{item.title}</Typography>
-                    <Typography>item.detail{item.detail}</Typography>
+                    {/* <Typography>item.title{}</Typography>
+                    <Typography>item.detail{item.detail}</Typography> */}
                   </CardContent>
                 </Card>
               );
             })}
-        </main>
-  
-        <footer className={styles.footer}>
-          <a
-            // TODO: ここを修正する。
-            href="https://www.nagaokaut.ac.jp/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Powered by NAKAJIMA, Keita
-          </a>
-        </footer>
-      </div>
-    );
-  }
-  else
-  {
-    return;
-  }
+      </main>
+
+      <footer className={styles.footer}>
+        <a
+          // TODO: ここを修正する。
+          href="https://www.nagaokaut.ac.jp/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Powered by NAKAJIMA, Keita
+        </a>
+      </footer>
+    </div>
+  );
 };
 
-export default Student;
+export default Task;
