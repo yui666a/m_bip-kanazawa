@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
+import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import SchoolIcon from "@mui/icons-material/School";
 import WorkIcon from "@mui/icons-material/Work";
@@ -19,6 +20,7 @@ import { useEffect, useState } from "react";
 import { Input, TextField, Typography } from "@mui/material";
 import Image from "next/image";
 import axios from 'axios';
+import { width } from "@mui/system";
 
 type JobOffer = {
   logo: any;
@@ -26,6 +28,26 @@ type JobOffer = {
   category: string;
   title: string;
   detail: string;
+};
+
+const onClickHandler = (task_id: number, title: string, detail: string, router: any) => {
+  console.log("post");
+  if (title === "" || detail === "") {
+    alert("タイトルと詳細を入力してください。");
+    return;
+  }
+
+  const urlBase = "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
+  axios.get(urlBase, {
+    params: {
+      mode: 'create-idea',
+      author_id: 1,
+      jobs_id: task_id,
+      title: title,
+      detail: detail
+    }
+  });
+  router.reload();
 };
 
 const Task: NextPage = () => {
@@ -36,6 +58,9 @@ const Task: NextPage = () => {
   const [ideasData, setIdeasDatas] = useState({});
 
   const [items, setItems] = useState([]);
+
+  const [ideaTitle, setIdeaTitle] = useState('');
+  const [ideaDetail, setIdeaDetail] = useState('');
 
   const urlBase = "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
 
@@ -160,55 +185,88 @@ const Task: NextPage = () => {
         </Card>
 
         {ideaIdList &&
-            ideaIdList.map((item_id: any) => {
-              let idea = ideasData[(item_id-1).toString()];
-              console.log(idea);
+          ideaIdList.map((item_id: any) => {
+            let idea = ideasData[(item_id-1).toString()];
+            console.log(idea);
 
-              let idea_author_name = "";
-              let idea_author_id = -1;
-              try {
-                idea_author_name = idea.author.name;
-                author_id = idea.author.id;
-              } catch (e) {
-                console.log(`エラー発生 ${e}`);
-              }
-            
+            let idea_author_name = "";
+            let idea_author_id = -1;
+            try {
+              idea_author_name = idea.author.name;
+              author_id = idea.author.id;
+            } catch (e) {
+              console.log(`エラー発生 ${e}`);
+            }
+          
 
-              return (
-                <Card
-                  variant="outlined"
-                  sx={{ width: "100%", margin: "5px" }}
-                  key={item_id}
-                >
-                  <CardContent>
-                    <Typography
-                      variant="h6"
-                      align="left"
-                    >
-                      [{idea.status}] {idea_author_name} さん
-                    </Typography>
+            return (
+              <Card
+                variant="outlined"
+                sx={{ width: "100%", margin: "5px" }}
+                key={item_id}
+              >
+                <CardContent>
+                  <Typography
+                    variant="h6"
+                    align="left"
+                  >
+                    {idea_author_name} さん
+                    {/* [{idea.status}] {idea_author_name} さん */}
+                  </Typography>
 
-                    <Typography
-                      variant="h6"
-                      align="left"
-                      sx={{borderBottom: 1, borderColor: '#eaeaea'}}
-                    >
-                      {idea.title}
-                    </Typography>
+                  <Typography
+                    variant="h6"
+                    align="left"
+                    sx={{borderBottom: 1, borderColor: '#eaeaea'}}
+                  >
+                    {idea.title}
+                  </Typography>
 
-                    <Typography
-                      sx={{ width: "100%", padding: "10px" }}            
-                    >
-                      {idea.detail}
-                    </Typography>
-                    
-                    {/* <Image>{item.logo}</Image> */}
-                    {/* <Typography>item.title{}</Typography>
-                    <Typography>item.detail{item.detail}</Typography> */}
-                  </CardContent>
-                </Card>
-              );
-            })}
+                  <Typography
+                    sx={{ width: "100%", padding: "10px" }}            
+                  >
+                    {idea.detail}
+                  </Typography>
+                </CardContent>
+              </Card>
+            );
+          }
+        )}
+
+        <Card
+          variant="outlined"
+          sx={{ width: "100%", margin: "5px", marginTop:"50px" }}
+        >
+          <CardContent>
+            <TextField
+              onChange={(event) => setIdeaTitle(event.target.value)}
+              label="タイトル"
+              id="filled-hidden-label-small"
+              variant="filled"
+              size="small"
+              sx={{ width: "100%", my: "10px" }}      
+            />
+    
+            <TextField
+              onChange={(event) => setIdeaDetail(event.target.value)}
+              id="filled-hidden-label-small"
+              label="内容"
+              multiline
+              rows={4}
+              sx={{ width: "100%", my: "10px" }}      
+            />
+
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => onClickHandler(1, ideaTitle, ideaDetail, router)}
+            >
+              送信
+            </Button>
+          </CardContent>
+        </Card>
+          
+
       </main>
 
       <footer className={styles.footer}>
