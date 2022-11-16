@@ -84,10 +84,10 @@ const Student: NextPage = () => {
   const [jobCategory, setJobCategory] = useState("");
   const [jobDetail, setJobDetail] = useState("");
   const [jobReward, setJobReward] = useState("");
-  var my_id = -1;
+  const [myId, setMyId] = useState();
   useEffect(() => {
-    // console.log("useEffect");
-    my_id = localStorage.getItem('id');
+    console.log("useEffect");
+    setMyId(localStorage.getItem('id'));
   }, []);
 
   return (
@@ -150,7 +150,7 @@ const Student: NextPage = () => {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => onClickHandler(my_id, jobTitle, jobCategory, jobDetail, jobReward, router)}
+              onClick={() => onClickHandler(myId, jobTitle, jobCategory, jobDetail, jobReward, router)}
             >
               送信
             </Button>
