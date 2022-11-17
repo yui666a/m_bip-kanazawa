@@ -65,7 +65,7 @@ const Home: NextPage = () => {
               <Button
                 variant="contained"
                 startIcon={<WorkIcon />}
-                endIcon={<StorefrontIcon />}
+                // endIcon={<StorefrontIcon />}
                 onClick={() => Router.push("/company")}
                 fullWidth
                 style={{ fontSize: "1.6rem" }}
