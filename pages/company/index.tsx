@@ -65,7 +65,7 @@ useEffect(() => {
       </Head>
 
       <header className={styles.title}>
-        <AppBar position="static">Company My Page</AppBar>
+        <AppBar position="static">あなたが投稿した質問一覧<Typography>Company My Page</Typography></AppBar>
       </header>
 
       <main className={styles.main}>
@@ -113,6 +113,8 @@ useEffect(() => {
                     ￥<Typography>{item.reward}</Typography>
                   </div>
                   <Typography>{item.detail}</Typography>
+                  {/* <Typography>{item.status(takingApplications, solved, closed)}</Typography> */}
+
                 </CardContent>
               </Card>
             );

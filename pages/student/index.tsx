@@ -79,7 +79,8 @@ const Student: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header className={styles.title}>
-        <AppBar position="static">　</AppBar>
+        <AppBar position="static">こんな疑問が投稿されています
+        <Typography>企業からの投稿一覧</Typography></AppBar>
       </header>
       <div className={styles.container}>
         <main className={styles.main} style={{ justifyContent: "unset" }}>
