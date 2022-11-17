@@ -34,6 +34,13 @@ const styleStatusTag = {
   width: "fit-content",
   display: "inline-block",
 };
+const styleCategoryTag = {
+  background: "rgb(120 120 120 / 0.2)",
+  borderRadius: "1rem",
+  padding: "0 1rem",
+  width: "fit-content",
+  display: "inline-block",
+};
 
 const Student: NextPage = () => {
   const [items, setItems] = useState<JobOffer[]>([]);
@@ -143,7 +150,20 @@ const Student: NextPage = () => {
                       }}
                     >
                       カテゴリ：
-                      <Typography>{item.category}</Typography>
+                      <Typography>
+                        {item.category.split(/[.*?。、]/gm).map((cat) => {
+                          return (
+                            <span
+                              key={cat}
+                              style={{
+                                ...styleCategoryTag,
+                              }}
+                            >
+                              {cat}
+                            </span>
+                          );
+                        })}
+                      </Typography>
                     </div>
                     <div
                       style={{
