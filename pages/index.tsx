@@ -12,6 +12,13 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import Image from "next/image";
 import KeyVisual from "/public/keyvisual_m.jpg";
 import { AppBar, Hidden } from "@mui/material";
+
+const onClickGuestLogin = () => {
+  localStorage.setItem("id", "5");
+  localStorage.setItem("userId", "guest");
+  Router.push("/student");
+};
+
 const Home: NextPage = () => {
   return (
     <>
@@ -95,6 +102,17 @@ const Home: NextPage = () => {
                 style={{ fontSize: "1.6rem" }}
               >
                 学生の方はこちら
+              </Button>
+            </p>
+            <p style={{ textAlign: "center" }}>
+              <Button
+                variant="contained"
+                startIcon={<SchoolIcon />}
+                onClick={() => onClickGuestLogin()}
+                fullWidth
+                style={{ fontSize: "1.6rem" }}
+              >
+                ゲストの方はこちら
               </Button>
             </p>
             <p style={{ textAlign: "center" }}>
