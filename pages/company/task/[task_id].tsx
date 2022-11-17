@@ -10,6 +10,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 
 type JobOffer = {
   logo?: any;
@@ -78,15 +79,15 @@ const Task: NextPage = () => {
       <header className={styles.title}>
         <AppBar position="static">
           <Grid container>
-          <Grid item xs={12} md={2}></Grid>
-          <Grid item xs={12} md={8}>
-          質問投稿ページ
-            <Typography variant="h5">
-            質問したい内容を入力してください
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={2}>
-            <Typography variant="h6" align="right" padding={"10px"}>
+            <Grid item xs={12} md={2}></Grid>
+            <Grid item xs={12} md={8}>
+              アイディアのチェック
+              <Typography variant="h5">
+                ドクターたちのプランをチェックしよう！
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <Typography variant="h6" align="right" padding={"10px"}>
                 {myUserId} さん
               </Typography>
             </Grid>
@@ -168,6 +169,18 @@ const Task: NextPage = () => {
                     <Typography sx={{ width: "100%", padding: "10px" }}>
                       {idea.detail}
                     </Typography>
+                    <div
+                      style={{ display: "flex", justifyContent: "flex-end" }}
+                    >
+                      <Button
+                        variant="contained"
+                        color="success"
+                        style={{ marginRight: "0.5em" }}
+                      >
+                        採用！
+                      </Button>
+                      <Button variant="contained">詳しく話を聞く</Button>
+                    </div>
                   </CardContent>
                 </Card>
               );
