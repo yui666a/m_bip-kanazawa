@@ -78,13 +78,15 @@ const Task: NextPage = () => {
       <header className={styles.title}>
         <AppBar position="static">
           <Grid container>
-            <Grid item xs={12} md={2}></Grid>
-            <Grid item xs={12} md={8}>
-              質問したい内容を入力してください
-              <Typography variant="h5">質問投稿ページ</Typography>
-            </Grid>
-            <Grid item xs={12} md={2}>
-              <Typography variant="h6" align="right" padding={"10px"}>
+          <Grid item xs={12} md={2}></Grid>
+          <Grid item xs={12} md={8}>
+          質問投稿ページ
+            <Typography variant="h5">
+            質問したい内容を入力してください
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Typography variant="h6" align="right" padding={"10px"}>
                 {myUserId} さん
               </Typography>
             </Grid>
