@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Router from "next/router";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import SchoolIcon from "@mui/icons-material/School";
 import WorkIcon from "@mui/icons-material/Work";
@@ -11,7 +12,6 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import Image from "next/image";
 import KeyVisual from "/public/keyvisual_m.jpg";
 import { AppBar, Hidden } from "@mui/material";
-
 const Home: NextPage = () => {
   return (
     <>
@@ -23,7 +23,20 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>
+      <div
+      // lassName={styles.container}
+      >
+        {/* <header className={styles.title}>
+          <AppBar position="static">
+            <span>カイドク！</span>
+          </AppBar>
+        </header> */}
+        {/* <main className={styles.main}> */}
+        {/* <h1 className={styles.title}>
+            イノベーションを起こすならば
+            <br />
+            カイドク！
+          </h1> */}
         <div
           style={{
             height: "100%",
@@ -44,17 +57,17 @@ const Home: NextPage = () => {
           />
         </div>
 
-        <div style={{ display: "flex", height: "100" }}>
-          <div style={{ width: "70%" }}>
+        <Grid container>
+          <Grid item xs={12} md={8}>
             <h1 className={styles.title}>
               イノベーションを起こすなら
               <br />
               カイドク！
             </h1>
-          </div>
+          </Grid>
+          <Grid item xs={12} md={4}>
           <div
             style={{
-              width: "30%",
               height: "100vh",
               background: "rgba(255,255,255,0.8)",
               padding: "1rem 2rem",
@@ -65,7 +78,7 @@ const Home: NextPage = () => {
               <Button
                 variant="contained"
                 startIcon={<WorkIcon />}
-                // endIcon={<StorefrontIcon />}
+                endIcon={<StorefrontIcon />}
                 onClick={() => Router.push("/company")}
                 fullWidth
                 style={{ fontSize: "1.6rem" }}
@@ -106,8 +119,9 @@ const Home: NextPage = () => {
                 新規登録
               </Button>
             </p>
-          </div>
-        </div>
+            </div>
+          </Grid>
+        </Grid>
       </div>
     </>
   );
