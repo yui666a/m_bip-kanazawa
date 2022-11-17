@@ -26,6 +26,7 @@ type JobOffer = {
   detail?: string;
   reward?: number;
   status: string;
+  ideas?: any[];
 };
 const styleStatusTag = {
   background: "rgb(120 120 120 / 0.5)",
@@ -80,19 +81,17 @@ const Student: NextPage = () => {
       <header className={styles.title}>
         <AppBar position="static">
           <Grid container>
-          <Grid item xs={12} md={2}></Grid>
-          <Grid item xs={12} md={8}>
-            企業からの投稿一覧
-            <Typography variant="h5">
-            こんな疑問が投稿されています
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={2}>
-            <Typography variant="h6" align="right" padding={"10px"}>
+            <Grid item xs={12} md={2}></Grid>
+            <Grid item xs={12} md={8}>
+              企業からの投稿一覧
+              <Typography variant="h5">こんな疑問が投稿されています</Typography>
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <Typography variant="h6" align="right" padding={"10px"}>
                 {myUserId} さん
-            </Typography>
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>
         </AppBar>
       </header>
       <div className={styles.container}>
@@ -140,11 +139,20 @@ const Student: NextPage = () => {
                   );
                   break;
               }
+              let hasPosted = false;
+              item.ideas?.forEach((idea) => {
+                idea.author.userId === myUserId && (hasPosted = true);
+              });
 
               return (
                 <Card
                   variant="outlined"
-                  sx={{ width: "100%", margin: "5px", borderRadius: "2em" }}
+                  sx={{
+                    width: "100%",
+                    margin: "5px",
+                    borderRadius: "2em",
+                    background: hasPosted ? "#dedede" : "inherit",
+                  }}
                   key={item.id}
                   onClick={() => Router.push("/student/task/" + item.id)}
                 >
@@ -155,10 +163,22 @@ const Student: NextPage = () => {
                       style={{
                         display: "flex",
                         fontSize: "0.9em",
-                        color: "gray",
+                        color: hasPosted ? "gray" : "black",
                       }}
                     >
                       <Typography variant="h4">
+                        {hasPosted && (
+                          <span
+                            style={{
+                              ...styleStatusTag,
+                              background: "gray",
+                              color: "white",
+                              borderRadius: "0",
+                            }}
+                          >
+                            投稿済み
+                          </span>
+                        )}
                         {item.title}
                         {tag && tag}
                       </Typography>
