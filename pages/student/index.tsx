@@ -24,35 +24,20 @@ type JobOffer = {
   title: string;
   detail?: string;
   reward?: number;
+  status: string;
 };
-const Student: NextPage = () => {
-  const sampleItems: JobOffer[] = [
-    {
-      id: 1,
-      logo: "",
-      category: "AAA",
-      title: "aaaaa",
-      detail: "this is detail",
-    },
-    {
-      id: 2,
-      logo: "",
-      category: "BBB",
-      title: "bbbbbbb",
-      detail: "this is detail",
-    },
-    {
-      id: 3,
-      logo: "",
-      category: "CCC",
-      title: "cccccccc",
-      detail: "this is detail",
-    },
-  ];
+const styleStatusTag = {
+  background: "rgb(120 120 120 / 0.5)",
+  fontSize: "2rem",
+  borderRadius: "2rem",
+  padding: "0 1rem",
+  width: "fit-content",
+  display: "inline-block",
+};
 
-  // TODO: 一時的にサンプルデータを挿入。APIから取得するようになったら、コメントアウトを外す
+const Student: NextPage = () => {
   const [items, setItems] = useState<JobOffer[]>([]);
-  // const [items, setItems] = useState<JobOffer[]>();
+
   const baseUrl =
     "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
   useEffect(() => {
@@ -64,6 +49,7 @@ const Student: NextPage = () => {
       })
       .then((res: any) => {
         console.log(res.data);
+        localStorage.setItem("jobs", JSON.stringify(res.data));
         setItems(res.data);
       });
   }, []);
@@ -85,6 +71,48 @@ const Student: NextPage = () => {
         <main className={styles.main} style={{ justifyContent: "unset" }}>
           {items &&
             items.map((item: JobOffer) => {
+              let tag;
+              switch (item.status) {
+                case "takingApplications":
+                  tag = (
+                    <span
+                      style={{
+                        ...styleStatusTag,
+                        background: "rgb(255 160 0)",
+                        color: "white",
+                      }}
+                    >
+                      募集中
+                    </span>
+                  );
+                  break;
+                case "solved":
+                  tag = (
+                    <span
+                      style={{
+                        ...styleStatusTag,
+                        background: "rgb(0 28 255 / 0.9)",
+                        color: "white",
+                      }}
+                    >
+                      解決済み
+                    </span>
+                  );
+                  break;
+                case "closed":
+                  tag = (
+                    <span
+                      style={{
+                        ...styleStatusTag,
+                        background: "rgb(120 120 120 / 0.5)",
+                      }}
+                    >
+                      受付終了
+                    </span>
+                  );
+                  break;
+              }
+
               return (
                 <Card
                   variant="outlined"
@@ -94,7 +122,19 @@ const Student: NextPage = () => {
                 >
                   <CardContent>
                     {/* <Image>{item.logo}</Image> */}
-                    <Typography variant="h4">{item.title}</Typography>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        fontSize: "0.9em",
+                        color: "gray",
+                      }}
+                    >
+                      <Typography variant="h4">
+                        {item.title}
+                        {tag && tag}
+                      </Typography>
+                    </div>
                     <div
                       style={{
                         display: "flex",
