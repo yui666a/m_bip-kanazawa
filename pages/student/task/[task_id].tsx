@@ -38,6 +38,15 @@ const Task: NextPage = () => {
   const baseUrl =
     "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
   useEffect(() => {
+    if (typeof task_id === "undefined") return;
+
+    const jobs = JSON.parse(localStorage.getItem("jobs") || "[]");
+    setJob(
+      jobs.filter((job) => {
+        return job.id == task_id;
+      })[0]
+    );
+
     axios
       .get(baseUrl, {
         params: {
@@ -46,7 +55,6 @@ const Task: NextPage = () => {
         },
       })
       .then((res: any) => {
-        console.log(res.data);
         setJob(res.data);
       });
   }, [task_id]);
@@ -85,17 +93,20 @@ const Task: NextPage = () => {
           <Typography variant="h2" align="left">
             質問
           </Typography>
-          <Card
-            variant="outlined"
-            sx={{ width: "100%", margin: "5px", marginBottom: "50px" }}
-          >
-            <Typography variant="h4" align="left">
-              {job && job.title}
-            </Typography>
-            <Typography>カテゴリー：{job && job.category}</Typography>
-            <Typography>質問社：{job && job.author_id}</Typography>
-            <Typography>報酬：{job && job.reward}</Typography>
-          </Card>
+          {job && (
+            <Card
+              variant="outlined"
+              sx={{ width: "100%", margin: "5px", marginBottom: "50px" }}
+            >
+              <Typography variant="h4" align="left">
+                {job && job.title}
+              </Typography>
+              <Typography>カテゴリー：{job.category}</Typography>
+              <Typography>質問者：{job.author.name}</Typography>
+              <Typography>報酬：{job.reward}</Typography>
+              <Typography>詳細：{job.detail}</Typography>
+            </Card>
+          )}
           <Typography variant="h2" align="left">
             あなたの回答
           </Typography>
@@ -140,9 +151,10 @@ const Task: NextPage = () => {
           >
             <ul>
               {job &&
+                job.ideas &&
                 job.ideas.map((idea: any) => {
                   return (
-                    <li key={idea.title}>
+                    <li key={idea.id}>
                       <Typography variant="h6" align="left">
                         {idea.title}
                       </Typography>
