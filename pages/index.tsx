@@ -11,6 +11,7 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import Image from "next/image";
 import KeyVisual from "/public/keyvisual_m.jpg";
 import { AppBar, Hidden } from "@mui/material";
+
 const Home: NextPage = () => {
   return (
     <>
@@ -22,20 +23,7 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div
-      // lassName={styles.container}
-      >
-        {/* <header className={styles.title}>
-          <AppBar position="static">
-            <span>カイドク！</span>
-          </AppBar>
-        </header> */}
-        {/* <main className={styles.main}> */}
-        {/* <h1 className={styles.title}>
-            イノベーションを起こすならば
-            <br />
-            カイドク！
-          </h1> */}
+      <div>
         <div
           style={{
             height: "100%",
@@ -77,7 +65,7 @@ const Home: NextPage = () => {
               <Button
                 variant="contained"
                 startIcon={<WorkIcon />}
-                endIcon={<StorefrontIcon />}
+                // endIcon={<StorefrontIcon />}
                 onClick={() => Router.push("/company")}
                 fullWidth
                 style={{ fontSize: "1.6rem" }}
@@ -120,18 +108,6 @@ const Home: NextPage = () => {
             </p>
           </div>
         </div>
-        {/* </main> */}
-
-        {/* <footer className={styles.footer}>
-          <a
-            // TODO: ここを修正する。
-            href="https://www.nagaokaut.ac.jp/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Powered by NAKAJIMA, Keita
-          </a>
-        </footer> */}
       </div>
     </>
   );
