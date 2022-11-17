@@ -1,86 +1,44 @@
 // @ts-nocheck
+import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-
-import Router from "next/router";
+import axios from "axios";
 import Head from "next/head";
 import styles from "/styles/Home.module.css";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-
+import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import SchoolIcon from "@mui/icons-material/School";
-import WorkIcon from "@mui/icons-material/Work";
-import StorefrontIcon from "@mui/icons-material/Storefront";
-import LoginIcon from "@mui/icons-material/Login";
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import { useEffect, useState } from "react";
-import { Input, TextField, Typography } from "@mui/material";
-import Image from "next/image";
-import axios from "axios";
-import { width } from "@mui/system";
 
 type JobOffer = {
-  logo: any;
+  logo?: any;
   id: number;
   category: string;
   title: string;
-  detail: string;
-};
-
-const onClickHandler = (myId: number, task_id: number, title: string, detail: string, router: any) => {
-  console.log("post");
-  if (title === "" || detail === "") {
-    alert("タイトルと詳細を入力してください。");
-    return;
-  }
-
-  const urlBase = "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
-  axios.get(urlBase, {
-    params: {
-      mode: 'create-idea',
-      author_id: myId,
-      jobs_id: task_id,
-      title: title,
-      detail: detail
-    }
-  })
-  .then((res) => {
-    router.reload();
-  });
+  detail?: string;
 };
 
 const Task: NextPage = () => {
   const router = useRouter();
   const { task_id } = router.query;
-  const [jobData, setJobDatas] = useState({});
-  const [ideaTitle, setIdeaTitle] = useState('');
-  const [ideaDetail, setIdeaDetail] = useState('');
+  const [jobData, setJobDatas] = useState<JobOffer>({});
   const urlBase =
     "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
 
   // task_idが変わるたびに処理を実行
-
-  const [myId, setMyId] = useState<number>();
   const [myUserId, setMyUserId] = useState("");
+
   useEffect(() => {
-    // console.log("useEffect");
-    // console.log(task_id);
     const urlApiJob = urlBase + "?mode=job&id=" + task_id;
     axios.get(urlApiJob).then((res) => {
       if (res.data !== "job not found") {
         setJobDatas(res.data);
       }
     });
-    
-    setMyId(Number(localStorage.getItem("id")));
+
     setMyUserId(String(localStorage.getItem("userId")));
   }, [task_id]);
-
-
 
   let author_name = "";
   let author_id = -1;
@@ -102,19 +60,10 @@ const Task: NextPage = () => {
   try {
     // console.log("要素数:" + jobData.ideas.length);
     let len = jobData.ideas.length;
-    ideaIdList = [...Array(len)].map((_:undefined, idx:number) => idx);
+    ideaIdList = [...Array(len)].map((_: undefined, idx: number) => idx);
   } catch (e) {
     // console.log(`エラー発生 ${e}`);
   }
-  // console.log(ideaIdList);
-
-  // setItems(ideaIdList);
-
-  // console.log("jobData");
-  // console.log(jobData);
-  // console.log("ideasData");
-  // console.log(ideasData);
-  // console.log("");
 
   return (
     <>
@@ -129,19 +78,17 @@ const Task: NextPage = () => {
       <header className={styles.title}>
         <AppBar position="static">
           <Grid container>
-          <Grid item xs={12} md={2}></Grid>
-          <Grid item xs={12} md={8}>
-            質問したい内容を入力してください
-            <Typography variant="h5">
-                  質問投稿ページ
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={2}>
-            <Typography variant="h6" align="right" padding={"10px"}>
+            <Grid item xs={12} md={2}></Grid>
+            <Grid item xs={12} md={8}>
+              質問したい内容を入力してください
+              <Typography variant="h5">質問投稿ページ</Typography>
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <Typography variant="h6" align="right" padding={"10px"}>
                 {myUserId} さん
-            </Typography>
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>
         </AppBar>
       </header>
       <div className={styles.container}>
@@ -149,7 +96,6 @@ const Task: NextPage = () => {
           <Card
             variant="outlined"
             sx={{ width: "100%", margin: "5px", marginBottom: "50px" }}
-            // key={item.id}
           >
             <CardContent>
               <Typography variant="h6" align="left">
@@ -187,7 +133,6 @@ const Task: NextPage = () => {
           {ideaIdList &&
             ideaIdList.map((item_id: any) => {
               let idea = jobData.ideas[item_id];
-              // console.log(idea);
 
               let idea_author_name = "";
               let idea_author_id = -1;
@@ -205,10 +150,7 @@ const Task: NextPage = () => {
                   key={item_id}
                 >
                   <CardContent>
-                    <Typography
-                      variant="h6"
-                      align="left"
-                    >
+                    <Typography variant="h6" align="left">
                       {idea_author_name} さん
                       {/* [{idea.status}] {idea_author_name} さん */}
                     </Typography>
@@ -221,49 +163,13 @@ const Task: NextPage = () => {
                       {idea.title}
                     </Typography>
 
-                    <Typography
-                      sx={{ width: "100%", padding: "10px" }}            
-                    >
+                    <Typography sx={{ width: "100%", padding: "10px" }}>
                       {idea.detail}
                     </Typography>
                   </CardContent>
                 </Card>
               );
-            }
-          )}
-
-          <Card
-            variant="outlined"
-            sx={{ width: "100%", margin: "5px", marginTop:"50px" }}
-          >
-            <CardContent>
-              <TextField
-                onChange={(event) => setIdeaTitle(event.target.value)}
-                label="タイトル"
-                id="filled-hidden-label-small"
-                variant="filled"
-                size="small"
-                sx={{ width: "100%", my: "10px" }}      
-              />
-      
-              <TextField
-                onChange={(event) => setIdeaDetail(event.target.value)}
-                id="filled-hidden-label-small"
-                label="内容"
-                multiline
-                rows={4}
-                sx={{ width: "100%", my: "10px" }}      
-              />
-
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => onClickHandler(myId, task_id, ideaTitle, ideaDetail, router)}
-              >
-                送信
-              </Button>
-            </CardContent>
-          </Card>
+            })}
         </main>
 
         <footer className={styles.footer}>

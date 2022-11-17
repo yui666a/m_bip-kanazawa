@@ -69,7 +69,7 @@ const Task: NextPage = () => {
 
     const params = {
       mode: "create-idea",
-      author_id: localStorage.getItem("userId"),
+      author_id: localStorage.getItem("id"),
       title: data.get("title"),
       detail: data.get("detail"),
       jobs_id: task_id,
@@ -92,19 +92,17 @@ const Task: NextPage = () => {
       <header className={styles.title}>
         <AppBar position="static">
           <Grid container>
-          <Grid item xs={12} md={2}></Grid>
-          <Grid item xs={12} md={8}>
-            回答入力ページ
-            <Typography variant="h5">
-              回答を投稿してください
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={2}>
-            <Typography variant="h6" align="right" padding={"10px"}>
+            <Grid item xs={12} md={2}></Grid>
+            <Grid item xs={12} md={8}>
+              回答入力ページ
+              <Typography variant="h5">回答を投稿してください</Typography>
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <Typography variant="h6" align="right" padding={"10px"}>
                 {myUserId} さん
-            </Typography>
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>
         </AppBar>
       </header>
       <div className={styles.container}>
