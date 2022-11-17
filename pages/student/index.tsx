@@ -76,7 +76,7 @@ const Student: NextPage = () => {
       </Head>
       <header className={styles.title}>
         <AppBar position="static">こんな疑問が投稿されています
-        <Typography>企業からの投稿一覧</Typography></AppBar>
+        <Typography variant="h5">企業からの投稿一覧</Typography></AppBar>
       </header>
       <div className={styles.container}>
         <main className={styles.main} style={{ justifyContent: "unset" }}>
