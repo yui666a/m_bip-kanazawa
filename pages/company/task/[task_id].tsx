@@ -10,6 +10,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 
 type JobOffer = {
   logo?: any;
@@ -168,6 +169,18 @@ const Task: NextPage = () => {
                     <Typography sx={{ width: "100%", padding: "10px" }}>
                       {idea.detail}
                     </Typography>
+                    <div
+                      style={{ display: "flex", justifyContent: "flex-end" }}
+                    >
+                      <Button
+                        variant="contained"
+                        color="success"
+                        style={{ marginRight: "0.5em" }}
+                      >
+                        採用！
+                      </Button>
+                      <Button variant="contained">詳しく話を聞く</Button>
+                    </div>
                   </CardContent>
                 </Card>
               );
