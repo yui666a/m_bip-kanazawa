@@ -48,6 +48,9 @@ const Student: NextPage = () => {
   const baseUrl =
     "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
   useEffect(() => {
+    const saveText = localStorage.getItem("jobs") || "[]";
+    setItems(JSON.parse(saveText));
+
     axios
       .get(baseUrl, {
         params: {
