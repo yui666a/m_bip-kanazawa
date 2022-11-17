@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Router from "next/router";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import SchoolIcon from "@mui/icons-material/School";
 import WorkIcon from "@mui/icons-material/Work";
@@ -56,17 +57,17 @@ const Home: NextPage = () => {
           />
         </div>
 
-        <div style={{ display: "flex", height: "100" }}>
-          <div style={{ width: "70%" }}>
+        <Grid container>
+          <Grid item xs={12} md={8}>
             <h1 className={styles.title}>
               イノベーションを起こすなら
               <br />
               カイドク！
             </h1>
-          </div>
+          </Grid>
+          <Grid item xs={12} md={4}>
           <div
             style={{
-              width: "30%",
               height: "100vh",
               background: "rgba(255,255,255,0.8)",
               padding: "1rem 2rem",
@@ -118,20 +119,9 @@ const Home: NextPage = () => {
                 新規登録
               </Button>
             </p>
-          </div>
-        </div>
-        {/* </main> */}
-
-        {/* <footer className={styles.footer}>
-          <a
-            // TODO: ここを修正する。
-            href="https://www.nagaokaut.ac.jp/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Powered by NAKAJIMA, Keita
-          </a>
-        </footer> */}
+            </div>
+          </Grid>
+        </Grid>
       </div>
     </>
   );
