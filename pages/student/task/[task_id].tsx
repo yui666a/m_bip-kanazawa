@@ -109,7 +109,7 @@ const Task: NextPage = () => {
       </header>
       <div className={styles.container}>
         <main className={styles.main} style={{ justifyContent: "unset" }}>
-          <Typography variant="h2" align="left">
+          <Typography variant="h3" align="left">
             質問
           </Typography>
           {job && (
@@ -126,10 +126,15 @@ const Task: NextPage = () => {
               <Typography>詳細：{job.detail}</Typography>
             </Card>
           )}
-          <Typography variant="h2" align="left">
+          <Typography variant="h3" align="left">
             あなたの回答
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ width: "100%", margin: "5px", marginBottom: "50px" }}
+          >
             {/* <Card
               variant="outlined"
               sx={{ width: "100%", margin: "5px", marginBottom: "50px" }}
@@ -142,7 +147,6 @@ const Task: NextPage = () => {
               id="title"
               label="回答のタイトル"
               autoFocus
-              style={{ margin: "1em" }}
             />
             <TextField
               autoComplete=""
@@ -154,14 +158,14 @@ const Task: NextPage = () => {
               autoFocus
               multiline
               rows={8}
-              style={{ margin: "1em" }}
+              style={{ marginTop: "1em" }}
             />
             <Button type="submit" variant="contained" style={{ margin: "1em" }}>
               投稿する
             </Button>
             {/* </Card> */}
           </Box>
-          <Typography variant="h2" align="left">
+          <Typography variant="h3" align="left">
             他のドクターの回答
           </Typography>
           <Card

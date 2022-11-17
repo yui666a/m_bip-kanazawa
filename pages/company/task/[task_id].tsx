@@ -131,9 +131,9 @@ const Task: NextPage = () => {
           <Grid container>
           <Grid item xs={12} md={2}></Grid>
           <Grid item xs={12} md={8}>
-            質問したい内容を入力してください
+          質問投稿ページ
             <Typography variant="h5">
-                  質問投稿ページ
+            質問したい内容を入力してください
             </Typography>
           </Grid>
           <Grid item xs={12} md={2}>

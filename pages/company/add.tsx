@@ -101,7 +101,7 @@ const Student: NextPage = () => {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>カイドク</title>
         <meta
@@ -115,9 +115,9 @@ const Student: NextPage = () => {
           <Grid container>
           <Grid item xs={12} md={2}></Grid>
           <Grid item xs={12} md={8}>
-            質問したい内容を入力して下さい
+            質問投稿ページ
             <Typography variant="h5">
-              質問投稿ページ
+            質問したい内容を入力して下さい
             </Typography>
           </Grid>
           <Grid item xs={12} md={2}>
@@ -128,6 +128,7 @@ const Student: NextPage = () => {
         </Grid>
         </AppBar>
       </header>
+    <div className={styles.container}>
 
       <main className={styles.main}>
         <Card
@@ -204,6 +205,7 @@ const Student: NextPage = () => {
         </a>
       </footer>
     </div>
+    </>
   );
 };
 
