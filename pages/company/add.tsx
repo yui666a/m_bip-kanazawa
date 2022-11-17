@@ -109,7 +109,7 @@ const Student: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header className={styles.title}>
-        <AppBar position="static">企業求人追加ページ。ここはヘッダー</AppBar>
+        <AppBar position="static">質問したい内容を入力して下さい<Typography variant="h5">質問投稿ページ</Typography></AppBar>
       </header>
       <main className={styles.main}>
         <Card
