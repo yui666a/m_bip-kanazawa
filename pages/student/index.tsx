@@ -6,6 +6,7 @@ import AppBar from "@mui/material/AppBar";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
+import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import SchoolIcon from "@mui/icons-material/School";
 import WorkIcon from "@mui/icons-material/Work";
@@ -44,6 +45,7 @@ const styleCategoryTag = {
 
 const Student: NextPage = () => {
   const [items, setItems] = useState<JobOffer[]>([]);
+  const [myUserId, setMyUserId] = useState("");
 
   const baseUrl =
     "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
@@ -62,6 +64,7 @@ const Student: NextPage = () => {
         localStorage.setItem("jobs", JSON.stringify(res.data));
         setItems(res.data);
       });
+    setMyUserId(String(localStorage.getItem("userId")));
   }, []);
 
   return (
@@ -75,8 +78,22 @@ const Student: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header className={styles.title}>
-        <AppBar position="static">こんな疑問が投稿されています
-        <Typography variant="h5">企業からの投稿一覧</Typography></AppBar>
+        <AppBar position="static">
+          <Grid container>
+          <Grid item xs={12} md={2}></Grid>
+          <Grid item xs={12} md={8}>
+            こんな疑問が投稿されています
+            <Typography variant="h5">
+            企業からの投稿一覧
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Typography variant="h6" align="right" padding={"10px"}>
+                {myUserId} さん
+            </Typography>
+          </Grid>
+        </Grid>
+        </AppBar>
       </header>
       <div className={styles.container}>
         <main className={styles.main} style={{ justifyContent: "unset" }}>

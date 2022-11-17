@@ -6,6 +6,7 @@ import AppBar from "@mui/material/AppBar";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
+import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import SchoolIcon from "@mui/icons-material/School";
 import WorkIcon from "@mui/icons-material/Work";
@@ -38,19 +39,23 @@ const Company: NextPage = () => {
 
   const baseUrl =
   "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
-useEffect(() => {
-  axios
-    .get(baseUrl, {
-      params: {
-        mode: "jobs",
-        author_id: my_id,
-      },
-    })
-    .then((res: any) => {
-      console.log(res.data);
-      setItems(res.data);
-    });
-}, []);
+  
+
+  const [myUserId, setMyUserId] = useState("");
+  useEffect(() => {
+    axios
+      .get(baseUrl, {
+        params: {
+          mode: "jobs",
+          author_id: my_id,
+        },
+      })
+      .then((res: any) => {
+        console.log(res.data);
+        setItems(res.data);
+      });
+    setMyUserId(String(localStorage.getItem("userId")));
+  }, []);
 
 
   return (
@@ -65,7 +70,22 @@ useEffect(() => {
       </Head>
 
       <header className={styles.title}>
-        <AppBar position="static">あなたが投稿した質問一覧<Typography variant="h5">Company My Page</Typography></AppBar>
+        <AppBar position="static">
+          <Grid container>
+          <Grid item xs={12} md={2}></Grid>
+          <Grid item xs={12} md={8}>
+            あなたが投稿した質問一覧
+            <Typography variant="h5">
+            Company My Page
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Typography variant="h6" align="right" padding={"10px"}>
+                {myUserId} さん
+            </Typography>
+          </Grid>
+        </Grid>
+        </AppBar>
       </header>
     <div className={styles.container}>
 

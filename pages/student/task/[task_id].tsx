@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
+import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import SchoolIcon from "@mui/icons-material/School";
 import WorkIcon from "@mui/icons-material/Work";
@@ -34,6 +35,7 @@ const Task: NextPage = () => {
   const { task_id } = router.query;
 
   const [job, setJob] = useState();
+  const [myUserId, setMyUserId] = useState("");
 
   const baseUrl =
     "https://script.google.com/macros/s/AKfycbyqG7KOoehDPDq9uI1eHzGKiZmX00AW1EG0sc3wnhKruNTKi9B2r19p08KBu5imfFl2hw/exec";
@@ -57,6 +59,8 @@ const Task: NextPage = () => {
       .then((res: any) => {
         setJob(res.data);
       });
+
+    setMyUserId(String(localStorage.getItem("userId")));
   }, [task_id]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -86,7 +90,22 @@ const Task: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header className={styles.title}>
-        <AppBar position="static">　</AppBar>
+        <AppBar position="static">
+          <Grid container>
+          <Grid item xs={12} md={2}></Grid>
+          <Grid item xs={12} md={8}>
+            回答入力ページ
+            <Typography variant="h5">
+              回答を投稿してください
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Typography variant="h6" align="right" padding={"10px"}>
+                {myUserId} さん
+            </Typography>
+          </Grid>
+        </Grid>
+        </AppBar>
       </header>
       <div className={styles.container}>
         <main className={styles.main} style={{ justifyContent: "unset" }}>

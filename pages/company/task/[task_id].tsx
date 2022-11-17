@@ -77,7 +77,7 @@ const Task: NextPage = () => {
     });
     
     setMyId(Number(localStorage.getItem("id")));
-    setMyUserId(localStorage.getItem("userId"));
+    setMyUserId(String(localStorage.getItem("userId")));
   }, [task_id]);
 
 

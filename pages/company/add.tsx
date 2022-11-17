@@ -93,9 +93,11 @@ const Student: NextPage = () => {
   const [jobDetail, setJobDetail] = useState("");
   const [jobReward, setJobReward] = useState("");
   const [myId, setMyId] = useState<number>();
+  const [myUserId, setMyUserId] = useState("");
   useEffect(() => {
-    console.log("useEffect");
+    // console.log("useEffect");
     setMyId(Number(localStorage.getItem("id")));
+    setMyUserId(String(localStorage.getItem("userId")));
   }, []);
 
   return (
@@ -109,8 +111,24 @@ const Student: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header className={styles.title}>
-        <AppBar position="static">質問したい内容を入力して下さい<Typography variant="h5">質問投稿ページ</Typography></AppBar>
+        <AppBar position="static">
+          <Grid container>
+          <Grid item xs={12} md={2}></Grid>
+          <Grid item xs={12} md={8}>
+            質問したい内容を入力して下さい
+            <Typography variant="h5">
+              質問投稿ページ
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Typography variant="h6" align="right" padding={"10px"}>
+                {myUserId} さん
+            </Typography>
+          </Grid>
+        </Grid>
+        </AppBar>
       </header>
+
       <main className={styles.main}>
         <Card
           variant="outlined"
