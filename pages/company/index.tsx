@@ -54,7 +54,7 @@ useEffect(() => {
 
 
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>カイドク</title>
         <meta
@@ -65,8 +65,9 @@ useEffect(() => {
       </Head>
 
       <header className={styles.title}>
-        <AppBar position="static">あなたが投稿した質問一覧<Typography>Company My Page</Typography></AppBar>
+        <AppBar position="static">あなたが投稿した質問一覧<Typography variant="h5">Company My Page</Typography></AppBar>
       </header>
+    <div className={styles.container}>
 
       <main className={styles.main}>
 
@@ -133,6 +134,7 @@ useEffect(() => {
         </a>
       </footer>
     </div>
+    </>
   );
 };
 
