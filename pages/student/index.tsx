@@ -82,9 +82,9 @@ const Student: NextPage = () => {
           <Grid container>
           <Grid item xs={12} md={2}></Grid>
           <Grid item xs={12} md={8}>
-            こんな疑問が投稿されています
-            <Typography variant="h5">
             企業からの投稿一覧
+            <Typography variant="h5">
+            こんな疑問が投稿されています
             </Typography>
           </Grid>
           <Grid item xs={12} md={2}>
